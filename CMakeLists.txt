@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.16.3...3.26)
 
 project(ants LANGUAGES CXX)
 
@@ -10,6 +9,11 @@ find_package(Python 3.8
 
 # Import nanobind through CMake's find_package mechanism
 find_package(nanobind CONFIG REQUIRED)
+
+execute_process(
+  COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
+  OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE NB_DIR)
+list(APPEND CMAKE_PREFIX_PATH "${NB_DIR}")
 
 # TODO: make this run only if ITK + ANTs are not already built
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
